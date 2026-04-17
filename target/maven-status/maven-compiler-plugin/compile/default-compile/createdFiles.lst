@@ -2,6 +2,7 @@ com/smartcampus/model/Room.class
 com/smartcampus/Main.class
 com/smartcampus/model/Sensor.class
 com/smartcampus/resources/DiscoveryResource.class
+com/smartcampus/resources/SensorResource.class
 com/smartcampus/data/DataStore.class
 com/smartcampus/model/SensorReading.class
 com/smartcampus/resources/RoomResource.class

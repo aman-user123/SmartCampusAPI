@@ -4,5 +4,6 @@ com/smartcampus/model/Sensor.class
 com/smartcampus/resources/DiscoveryResource.class
 com/smartcampus/data/DataStore.class
 com/smartcampus/model/SensorReading.class
+com/smartcampus/resources/RoomResource.class
 com/smartcampus/smartcampusapi/SmartCampusAPI.class
 com/smartcampus/AppConfig.class

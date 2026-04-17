@@ -8,6 +8,7 @@ package com.smartcampus;
 
 import com.smartcampus.resources.DiscoveryResource;
 import org.glassfish.grizzly.http.server.HttpServer;
+import com.smartcampus.resources.RoomResource;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import java.net.URI;
@@ -21,6 +22,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ResourceConfig config = new ResourceConfig();
         config.register(DiscoveryResource.class);
+        config.register(RoomResource.class);
         config.property("jersey.config.server.tracing.type", "ALL");
         config.property("jersey.config.server.tracing.threshold", "VERBOSE");
 

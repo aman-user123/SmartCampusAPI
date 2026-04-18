@@ -101,6 +101,7 @@ public class SensorResource {
 
     @GET
     @Path("{id}")
+    
     public Response getSensorById(@PathParam("id") String id) {
         logger.info("Request received to fetch sensor by id: " + id);
 
@@ -111,8 +112,14 @@ public class SensorResource {
                     .entity("{\"message\":\"Sensor not found\"}")
                     .build();
         }
+        
+        
 
         return Response.ok(foundSensor).build();
     }
+    @Path("{id}/readings")
+public SensorReadingResource getReadingResource(@PathParam("id") String id) {
+    return new SensorReadingResource(id);
+}
 }
 

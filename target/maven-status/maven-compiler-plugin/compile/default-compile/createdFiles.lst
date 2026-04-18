@@ -8,3 +8,4 @@ com/smartcampus/model/SensorReading.class
 com/smartcampus/resources/RoomResource.class
 com/smartcampus/smartcampusapi/SmartCampusAPI.class
 com/smartcampus/AppConfig.class
+com/smartcampus/resources/SensorReadingResource.class

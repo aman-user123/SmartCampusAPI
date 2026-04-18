@@ -1,9 +1,11 @@
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/resources/RoomResource.java
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/model/Room.java
+/Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/resources/SensorResource.java
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/model/SensorReading.java
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/data/DataStore.java
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/AppConfig.java
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/model/Sensor.java
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/resources/DiscoveryResource.java
+/Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/resources/SensorReadingResource.java
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/Main.java
 /Users/seyedaman/NetBeansProjects/SmartCampusAPI/src/main/java/com/smartcampus/smartcampusapi/SmartCampusAPI.java

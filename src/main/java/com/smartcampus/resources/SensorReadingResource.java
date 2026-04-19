@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.smartcampus.exception.SensorUnavailableException;
 import java.util.logging.Logger;
 
 @Produces(MediaType.APPLICATION_JSON)
@@ -71,6 +72,10 @@ public Response addReading(SensorReading newReading) {
 if (sensor == null) {
     throw new SensorNotFoundException("Sensor not found");
 }
+if ("MAINTENANCE".equals(sensor.getStatus())) {
+        throw new SensorUnavailableException("Sensor is currently under maintenance and cannot accept new readings");
+    }
+
 
     if (newReading == null) {
         return Response.status(Response.Status.BAD_REQUEST)

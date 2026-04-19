@@ -8,6 +8,7 @@ package com.smartcampus.exception;
  *
  * @author seyedaman
  */
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -16,18 +17,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Provider
-public class SensorNotFoundExceptionMapper implements ExceptionMapper<SensorNotFoundException> {
+public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override
-    public Response toResponse(SensorNotFoundException sensorException) {
+    public Response toResponse(Throwable unexpectedError) {
         Map<String, String> error = new HashMap<>();
-        error.put("error", sensorException.getMessage());
+        error.put("error", "Something went wrong on the server");
+        error.put("details", unexpectedError.getMessage());
 
-        return Response.status(Response.Status.NOT_FOUND)
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(error)
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }
 }
-
-

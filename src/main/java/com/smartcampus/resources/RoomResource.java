@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import com.smartcampus.exception.RoomNotFoundException;
+import com.smartcampus.exception.RoomDeleteException;
 
 @Path("api/v1/rooms")
 @Produces(MediaType.APPLICATION_JSON)
@@ -64,12 +66,11 @@ public class RoomResource {
         logger.info("Incoming request - GET room by id: " + id);
 
         Room foundRoom = roomStorage.get(id);
-
         if (foundRoom == null) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("{\"message\":\"No room found with id: " + id + "\"}")
-                    .build();
-        }
+    throw new RoomNotFoundException("No room found with id: " + id);
+}
+
+        
 
         return Response.ok(foundRoom).build();
     }
@@ -81,19 +82,15 @@ public class RoomResource {
         logger.info("Incoming request - DELETE room: " + id);
 
         Room targetRoom = roomStorage.get(id);
-
         if (targetRoom == null) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("{\"message\":\"Room not found, nothing to delete\"}")
-                    .build();
-        }
+    throw new RoomNotFoundException("Room not found, nothing to delete");
+}
 
-        // safety check - can't remove a room that still has sensors inside
-        if (!targetRoom.getSensorIds().isEmpty()) {
-            return Response.status(Response.Status.CONFLICT)
-                    .entity("{\"message\":\"This room still has sensors attached. Remove them first before deleting the room.\"}")
-                    .build();
-        }
+if (!targetRoom.getSensorIds().isEmpty()) {
+    throw new RoomDeleteException("This room still has sensors attached. Remove them first before deleting the room.");
+}
+
+        
 
         roomStorage.remove(id);
         logger.info("Room removed successfully: " + id);

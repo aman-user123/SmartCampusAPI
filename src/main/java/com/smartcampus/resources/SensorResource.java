@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.smartcampus.exception.SensorNotFoundException;
 import java.util.logging.Logger;
 
 @Path("api/v1/sensors")
@@ -107,12 +108,10 @@ public class SensorResource {
 
         Sensor foundSensor = sensorStore.get(id);
 
-        if (foundSensor == null) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("{\"message\":\"Sensor not found\"}")
-                    .build();
-        }
         
+        if (foundSensor == null) {
+    throw new SensorNotFoundException("Sensor not found");
+}
         
 
         return Response.ok(foundSensor).build();

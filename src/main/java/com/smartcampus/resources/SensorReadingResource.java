@@ -16,6 +16,7 @@ package com.smartcampus.resources;
 import com.smartcampus.data.DataStore;
 import com.smartcampus.model.Sensor;
 import com.smartcampus.model.SensorReading;
+import com.smartcampus.exception.SensorNotFoundException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -48,11 +49,9 @@ public Response getAllReadings() {
     logger.info("Fetching readings for sensor: " + sensorId);
 
     Sensor sensor = sensorStore.get(sensorId);
-    if (sensor == null) {
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("{\"message\":\"Sensor not found\"}")
-                .build();
-    }
+if (sensor == null) {
+    throw new SensorNotFoundException("Sensor not found");
+}
 
     List<SensorReading> readings = readingStore.get(sensorId);
 
@@ -69,11 +68,9 @@ public Response addReading(SensorReading newReading) {
     logger.info("Adding reading for sensor: " + sensorId);
 
     Sensor sensor = sensorStore.get(sensorId);
-    if (sensor == null) {
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("{\"message\":\"Sensor not found\"}")
-                .build();
-    }
+if (sensor == null) {
+    throw new SensorNotFoundException("Sensor not found");
+}
 
     if (newReading == null) {
         return Response.status(Response.Status.BAD_REQUEST)

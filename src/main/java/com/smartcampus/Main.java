@@ -14,6 +14,11 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import java.net.URI;
 import java.util.logging.Logger;
+import com.smartcampus.exception.RoomNotFoundExceptionMapper;
+import com.smartcampus.exception.SensorNotFoundExceptionMapper;
+import com.smartcampus.exception.RoomDeleteExceptionMapper;
+import com.smartcampus.exception.GlobalExceptionMapper;
+import com.smartcampus.filter.RequestLoggingFilter;
 
 public class Main {
 
@@ -25,6 +30,12 @@ public class Main {
         config.register(DiscoveryResource.class);
         config.register(RoomResource.class);
         config.register(SensorResource.class);
+        config.register(RoomNotFoundExceptionMapper.class);
+        config.register(SensorNotFoundExceptionMapper.class);
+        config.register(RoomDeleteExceptionMapper.class);
+        config.register(GlobalExceptionMapper.class);
+        config.register(RequestLoggingFilter.class);
+
         
         config.property("jersey.config.server.tracing.type", "ALL");
         config.property("jersey.config.server.tracing.threshold", "VERBOSE");

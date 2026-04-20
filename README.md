@@ -126,4 +126,70 @@ SmartCampusAPI/
 └── pom.xml
 
 
+---
+
+## Report Answers
+
+### Part 1.1 — JAX-RS Lifecycle
+By default, JAX-RS creates a new instance of a resource class for every incoming request. This is called request-scoped lifecycle. This means each request gets its own fresh object, which avoids threading issues between simultaneous requests.
+
+This also implies that we have to exercise caution in the sense that should there be multiple requests trying to update a certain HashMap simultaneously, there would be potential data corruption. This problem could be resolved using ConcurrentHashMap, as opposed to HashMap which is not thread-safe by design.
+
+
+
+### Part 1.2 — HATEOAS
+HATEOAS (Hypermedia as the Engine of Application State) means that API responses include links to related resources, so clients can navigate the API without needing to hardcode URLs. For example, when a room is returned, the response could include a link to its sensors.
+
+This is advantageous to client developers since they do not have to memorise or guess endpoint URLs, the API itself informs them of the next step.It also makes the API more flexible, since if URLs change, clients that follow links won't break.
+
+
+
+### Part 2.1 — IDs vs Full Objects
+
+Using just ID numbers for the results is lighter because it consumes fewer resources and time but requires clients to query for each one individually to get its information.
+Returning full objects is more convenient for the client since all data is available in one request, but it increases response size significantly, especially when there are thousands of rooms. 
+
+The best approach depends on the use case — for large datasets, returning IDs is better, but for smaller collections, returning full objects saves round trips.
+
+
+### Part 2.2 — Is DELETE Idempotent?
+Yes, DELETE is idempotent in our implementation. Idempotent means sending the same request multiple times produces the same result as sending it once.
+
+In our case, if a client sends DELETE /rooms/CS-101 and the room is successfully deleted, sending the exact same request again will return a 404 Not Found — because the room no longer exists. The server state doesn't change on the second call, which satisfies the definition of idempotency
+
+
+### Part 3.1 — Content-Type Mismatch
+The @Consumes(MediaType.APPLICATION_JSON) annotation tells JAX-RS that the endpoint only accepts JSON. When a client submits a request with another format such as text/plain or application/xml, JAX-RS will automatically reject the request and send a 415 Unsupported Media Type response without even going to our method code.
+
+### Part 3.2 — QueryParam vs PathParam
+Using @QueryParam for filtering (e.g. /sensors?type=CO2) is better than putting it in the path (e.g. /sensors/type/CO2) because query parameters are optional by nature — if no type is provided, the endpoint simply returns all sensors without breaking.
+
+Path parameters are better suited for identifying a specific resource (like /sensors/TEMP-001), not for filtering a collection. Using query parameters also follows REST conventions and makes the API more intuitive for client developers.
+
+
+### Part 4.1 — Sub-Resource Locator Benefits
+The Sub-Resource Locator pattern lets us assign the handling of nested paths to a different class.Instead of placing all the logic for /sensors/{id}/readings inside SensorResource, we give it to a separate SensorReadingResource class
+
+This keeps each class focused on one responsibility, making the code easier to read, maintain and test. In large APIs with many nested resources, this pattern keeps resource classes from becoming too big and unmanageable
+
+
+### Part 5.2 — Why 422 over 404
+A 404 Not Found suggests that the URL itself doesn't exist, which is misleading — the endpoint /sensors is perfectly valid. The problem is that the roomId referenced inside the JSON body doesn't exist in the system.
+
+A 422 Unprocessable Entity is more accurate because it tells the client that the request was received and understood, but the data inside it is semantically invalid — specifically, it references a resource that doesn't exist.
+
+
+### Part 5.4 — Stack Trace Security Risks
+The disclosure of java stack traces to outside clients poses a significant security threat due to the fact that this will give the attackers information regarding the internal implementation of the system. This includes the names of classes, packages, methods, file line numbers, and library versioning.
+
+ The attacker will be able to see the exact framework versions that are installed and then search for the respective vulnerability.
+This is why our GlobalExceptionMapper returns a clean generic error message instead of the raw stack trace.
+
+
+### Part 5.5 — Why Filters over Manual Logging
+Using JAX-RS filters for logging is better than manually adding Logger.info() calls inside every resource method because filters apply automatically to every request and response without touching individual methods.
+
+This follows the DRY principle (Don't Repeat Yourself) — if we need to change the logging format, we only change it in one place. It also keeps resource methods clean and focused on business logic rather than cross-cutting concerns like logging.
+
+
 

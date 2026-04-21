@@ -84,10 +84,10 @@ public class SensorResource {
         Room linkedRoom = roomStore.get(newSensor.getRoomId());
 
         if (linkedRoom == null) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("{\"message\":\"Cannot add sensor because the room does not exist\"}")
-                    .build();
-        }
+    return Response.status(422)
+            .entity("{\"message\":\"Cannot add sensor because the room does not exist\"}")
+            .build();
+}
 
         sensorStore.put(newSensor.getId(), newSensor);
         linkedRoom.getSensorIds().add(newSensor.getId());
